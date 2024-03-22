@@ -1,0 +1,11 @@
+dataset_class_path: diffmet.data.datasets.L1PFDataset
+train_files:
+  - /hdfs/user/seyang/L1METML/data/perfNano_TTbar_PU200.110X_set0.root
+  - /hdfs/user/seyang/L1METML/data/perfNano_TTbar_PU200.110X_set1.root
+  - /hdfs/user/seyang/L1METML/data/perfNano_TTbar_PU200.110X_set2.root
+  - /hdfs/user/seyang/L1METML/data/perfNano_TTbar_PU200.110X_set3.root
+val_files:
+  - /hdfs/user/seyang/L1METML/data/perfNano_TTbar_PU200.110X_set4.root
+test_files:
+  - /hdfs/user/seyang/L1METML/data/perfNano_TTbar_PU200.110X_set5.root
+  - /hdfs/user/seyang/L1METML/data/perfNano_TTbar_PU200.110X_set6.root
