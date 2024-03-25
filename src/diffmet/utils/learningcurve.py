@@ -45,9 +45,16 @@ def plot_learning_curve(df_train: pd.DataFrame,
     ax.set_xlabel('Epoch')
     ax.set_ylabel(y)
 
-    xtick_step = len(df_epoch) // 5
-    ax.set_xticks(df_epoch['step'][::xtick_step])
-    ax.set_xticklabels(df_epoch['epoch'][::xtick_step])
+
+	xticks = df_epoch['step']
+	xticklabels = df_epoch['epoch']
+	if len(xticklabels) > 10:
+		xtick_step = len(df_epoch) // 5
+        xticks = xticks[::xtick_step]
+        xticklabels = xticklabels[::xtick_step]
+
+	ax.set_xticks(xticks)
+	ax.set_xticklabels(xticklabels)
 
     ax.legend()
     ax.grid()
