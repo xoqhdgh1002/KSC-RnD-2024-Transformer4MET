@@ -3,25 +3,38 @@
 ## Recipes
 ### Install
 #### Micromamba
-copied from [Micromamba Installation](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html#automatic-install)
+* The following command will ask you a few questions.
+* `Prefix location` must be located under `/scratch/$USER` because the limit on the number of files in the home directory is only 100k
+
 ```bash
 "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 ```
+copied from [Micromamba Installation](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html#automatic-install)
 
-#### oython environment
+#### Python environment
+You can install python packages with `environment.yaml`
 ```bash
 micromamba create -y -f environment.yaml
 ```
 
 ### Setup
-if you are on bash
+let's start setup!
 ```bash
 source setup.sh
 ```
-
-### SubmitBatch job with slurm
+### Run a training code on a local machine
+You can then train a deep learning model with `train.py` and a configuration .yaml file.
+For example, you can a Transformer-based network that takes in L1 ParticleFlow candidates and reconstruct MET.
 ```bash
-mkdir logs # directory for slurm's output
-sbatch ./run.sh
+python trian.py -c ./config/test-l1pf-transformer-neuron.yaml
+```
+
+If you want to understand how to configure it, I recommend reading [Configure hyperparameters from the CLI](https://lightning.ai/docs/pytorch/stable/cli/lightning_cli.html#lightning-cli)
+
+### Submit a batch job with slurm
+Finally, you can submit a training job to a GPU cluster using slurm.
+```bash
+mkdir ./logs # directory for slurm's output
+sbatch ./train.sh
 squeue -u $USER
 ```
