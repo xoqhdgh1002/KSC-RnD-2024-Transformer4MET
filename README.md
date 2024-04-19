@@ -1,5 +1,8 @@
 # Differential MET Reconstruction
 
+## Updates at Here!
+[Google Docs](https://docs.google.com/presentation/d/1NfmIcNPUrPn3dtbH4TU6n-ewqgTCQL2fbUM9HTdGMfM/edit#slide=id.p)
+
 ## Recipes
 ### Install
 #### Micromamba
