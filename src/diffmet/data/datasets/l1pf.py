@@ -5,6 +5,8 @@ import awkward as ak
 from tensordict import TensorDict
 import uproot
 import vector
+# from .base import TensorDictListDataset
+# from .utils import convert_ak_to_tensor
 from .base import TensorDictListDataset
 from .utils import convert_ak_to_tensor
 vector.register_awkward()
@@ -28,8 +30,9 @@ class L1PFDataset(TensorDictListDataset):
     PDGID_MAP_SIZE: Final[int] = len(CANDIDATE_PDGID_MAP)
     GEN_MET_DIM: Final[int] = len(GEN_MET_FEATURES)
 
+
     @classmethod
-    def _from_root(cls,
+    def _get_data(cls,
                   path: str,
                   treepath: str = 'Events',
                   entry_stop: int | None = None
@@ -81,6 +84,27 @@ class L1PFDataset(TensorDictListDataset):
             with_name='Momentum2D'
         )
 
+        cands_pid_chunk = np.abs(data.L1PFCands_pdgId)
+        
+
+        return cls({'cands_chunk': cands_chunk, 
+                    'cands_pid_chunk': cands_pid_chunk, 
+                    'gen_met_chunk': gen_met_chunk, 
+                    'baseline_chunk': baseline_chunk})
+
+    @classmethod
+    def _from_root(cls,
+                  path: str,
+                  treepath: str = 'Events',
+                  entry_stop: int | None = None
+    ):
+        data_dict = cls._get_data(path=path)
+        cands_chunk = data_dict['cands_chunk']
+        cands_pid_chunk = data_dict['cands_pid_chunk']
+        gen_met_chunk = data_dict['gen_met_chunk']
+        baseline_chunk = data_dict['baseline_chunk']
+        
+
 
         # all continuous varaibles
         cands_chunk = [
@@ -89,7 +113,7 @@ class L1PFDataset(TensorDictListDataset):
             in zip(cands_chunk.px, cands_chunk.py, cands_chunk.eta) # type: ignore
         ]
 
-        cands_pid_chunk = np.abs(data.L1PFCands_pdgId)
+        
         cands_pid_chunk = [convert_ak_to_tensor(each) for each in cands_pid_chunk]
         cands_pid_chunk = [each.long().apply_(cls.CANDIDATE_PDGID_MAP.get)
                            for each in cands_pid_chunk]
@@ -99,7 +123,6 @@ class L1PFDataset(TensorDictListDataset):
 
         baseline_chunk = np.stack([baseline_chunk.px, baseline_chunk.py], axis=-1) # type: ignore
         baseline_chunk = convert_ak_to_tensor(baseline_chunk)
-
         example_list = [
             TensorDict(
                 source={
