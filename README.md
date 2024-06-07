@@ -1,5 +1,8 @@
 # Differential MET Reconstruction
 
+## Updates at Here!
+[Google Docs](https://docs.google.com/presentation/d/1NfmIcNPUrPn3dtbH4TU6n-ewqgTCQL2fbUM9HTdGMfM/edit#slide=id.p)
+
 ## Recipes
 ### Install
 #### Micromamba
@@ -26,7 +29,7 @@ source setup.sh
 You can then train a deep learning model with `train.py` and a configuration .yaml file.
 For example, you can a Transformer-based network that takes in L1 ParticleFlow candidates and reconstruct MET.
 ```bash
-python trian.py -c ./config/test-l1pf-transformer-neuron.yaml
+python train.py -c ./config/test-l1pf-transformer-neuron.yaml
 ```
 
 If you want to understand how to configure it, I recommend reading [Configure hyperparameters from the CLI](https://lightning.ai/docs/pytorch/stable/cli/lightning_cli.html#lightning-cli)
