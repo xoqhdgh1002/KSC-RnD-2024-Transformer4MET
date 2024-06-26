@@ -85,11 +85,11 @@ class L1PFDataset(TensorDictListDataset):
         )
 
         cands_pid_chunk = np.abs(data.L1PFCands_pdgId)
-        
 
-        return cls({'cands_chunk': cands_chunk, 
-                    'cands_pid_chunk': cands_pid_chunk, 
-                    'gen_met_chunk': gen_met_chunk, 
+
+        return cls({'cands_chunk': cands_chunk,
+                    'cands_pid_chunk': cands_pid_chunk,
+                    'gen_met_chunk': gen_met_chunk,
                     'baseline_chunk': baseline_chunk})
 
     @classmethod
@@ -103,7 +103,7 @@ class L1PFDataset(TensorDictListDataset):
         cands_pid_chunk = data_dict['cands_pid_chunk']
         gen_met_chunk = data_dict['gen_met_chunk']
         baseline_chunk = data_dict['baseline_chunk']
-        
+
 
 
         # all continuous varaibles
@@ -113,7 +113,7 @@ class L1PFDataset(TensorDictListDataset):
             in zip(cands_chunk.px, cands_chunk.py, cands_chunk.eta) # type: ignore
         ]
 
-        
+
         cands_pid_chunk = [convert_ak_to_tensor(each) for each in cands_pid_chunk]
         cands_pid_chunk = [each.long().apply_(cls.CANDIDATE_PDGID_MAP.get)
                            for each in cands_pid_chunk]

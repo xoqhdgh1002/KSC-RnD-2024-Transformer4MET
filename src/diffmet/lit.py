@@ -83,10 +83,14 @@ class LitModel(LightningModule):
         output = self.model(output)
         loss = self.criterion(input=output['rec_met'], target=output['gen_met'])
 
-        gen_met_norm = self.preprocessing['gen_met_norm']
-        # undo normalisation
-        gen_met: Tensor = gen_met_norm.inverse(output['gen_met']) # type: ignore
-        rec_met: Tensor = gen_met_norm.inverse(output['rec_met']) # type: ignore
+        gen_met = output['gen_met']
+        rec_met = output['rec_met']
+        if 'gen_met_norm' in self.preprocessing.keys():
+            gen_met_norm = self.preprocessing['gen_met_norm']
+            # undo normalisation
+            gen_met: Tensor = gen_met_norm.inverse(gen_met) # type: ignore
+            rec_met: Tensor = gen_met_norm.inverse(rec_met) # type: ignore
+
         # (px, py) to (pt, phi)
         gen_met_polar = to_polar(gen_met)
         rec_met_polar = to_polar(rec_met)

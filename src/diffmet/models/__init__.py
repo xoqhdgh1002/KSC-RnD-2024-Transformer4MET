@@ -1,2 +1,3 @@
 from .base import Model
-from .transformer import Transformer
+from .l1pf import L1PFModel
+from .delphes import DelphesModel

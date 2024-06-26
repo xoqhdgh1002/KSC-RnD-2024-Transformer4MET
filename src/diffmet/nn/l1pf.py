@@ -1,7 +1,7 @@
 import abc
-from dataclasses import dataclass
 from torch import nn
 from torch import Tensor
+
 
 
 class CandidateEmbedding(nn.Module, metaclass=abc.ABCMeta):
@@ -32,13 +32,6 @@ class CandidateEmbedding(nn.Module, metaclass=abc.ABCMeta):
                 data_mask: Tensor
     ) -> Tensor:
         ...
-
-
-@dataclass
-class AdditiveCandidateEmbeddingConfig:
-    input_dim: int
-    num_pids: int
-    embed_dim: int
 
 
 class AdditiveCandidateEmbedding(CandidateEmbedding):
