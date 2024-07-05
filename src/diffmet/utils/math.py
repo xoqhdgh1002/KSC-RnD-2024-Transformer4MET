@@ -14,3 +14,14 @@ def to_polar(met: Tensor) -> Tensor:
     phi = torch.atan2(py, px)
     polar_met = torch.stack([pt, phi], dim=1)
     return polar_met
+
+
+def rectify_phi(phi: Tensor) -> Tensor:
+    """
+    adapted from https://github.com/scikit-hep/vector/blob/v1.4.1/src/vector/_compute/planar/add.py#L30-L31
+    """
+    return (phi + torch.pi) % (2 * torch.pi) - torch.pi
+
+
+def compute_delta_phi(phi0: Tensor, phi1: Tensor) -> Tensor:
+    return rectify_phi(phi0 - phi1)

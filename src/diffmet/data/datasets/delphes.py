@@ -38,9 +38,12 @@ class DelphesDataset(TensorDictListDataset):
             # genMet
             'gen_met_pt',
             'gen_met_phi',
-            # baseline
+            # puppi
             'puppi_met_pt',
             'puppi_met_phi',
+            # pf
+            'pf_met_pt',
+            'pf_met_phi',
         ]
 
         data = tree.arrays( # type: ignore
@@ -74,10 +77,18 @@ class DelphesDataset(TensorDictListDataset):
             with_name='Momentum2D'
         )
 
-        baseline_chunk = ak.Array(
+        puppi_chunk = ak.Array(
             data={
                 'pt': data.puppi_met_pt,
                 'phi': data.puppi_met_phi,
+            },
+            with_name='Momentum2D'
+        )
+
+        pf_chunk = ak.Array(
+            data={
+                'pt': data.pf_met_pt,
+                'phi': data.pf_met_phi,
             },
             with_name='Momentum2D'
         )
@@ -120,15 +131,25 @@ class DelphesDataset(TensorDictListDataset):
         )
         gen_met_chunk = convert_ak_to_tensor(gen_met_chunk).float()
 
-        # baseline
-        baseline_chunk = np.stack(
+        # puppi
+        puppi_chunk = np.stack(
             arrays=[
-                baseline_chunk.px, # type: ignore
-                baseline_chunk.py, # type: ignore
+                puppi_chunk.px, # type: ignore
+                puppi_chunk.py, # type: ignore
             ],
             axis=-1,
         )
-        baseline_chunk = convert_ak_to_tensor(baseline_chunk).float()
+        puppi_chunk = convert_ak_to_tensor(puppi_chunk).float()
+
+        # pf
+        pf_chunk = np.stack(
+            arrays=[
+                pf_chunk.px, # type: ignore
+                pf_chunk.py, # type: ignore
+            ],
+            axis=-1,
+        )
+        pf_chunk = convert_ak_to_tensor(pf_chunk).float()
 
         example_list = [
             TensorDict(
@@ -136,12 +157,13 @@ class DelphesDataset(TensorDictListDataset):
                     'track': track,
                     'tower': tower,
                     'gen_met': gen_met,
-                    'baseline': baseline,
+                    'puppi_met': puppi,
+                    'pf_met': pf,
                 },
                 batch_size=[]
             )
-            for track, tower, gen_met, baseline
-            in zip(track_chunk, tower_chunk, gen_met_chunk, baseline_chunk)
+            for track, tower, gen_met, puppi, pf
+            in zip(track_chunk, tower_chunk, gen_met_chunk, puppi_chunk, pf_chunk)
         ]
 
         return cls(example_list)
