@@ -151,6 +151,3 @@ class LitModel(LightningModule):
         if 'gen_met_norm' in self.preprocessing.keys():
             rec_met: Tensor = self.preprocessing['gen_met_norm'].inverse(rec_met) # type: ignore
         return rec_met
-
-    def configure_optimizers(self):
-        return configure_optimizers(model=self.model)
