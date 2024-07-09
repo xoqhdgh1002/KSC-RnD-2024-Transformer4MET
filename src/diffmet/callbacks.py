@@ -7,11 +7,10 @@ from hist.storage import Double
 from tensordict import TensorDict
 import vector
 import numpy as np
-from torch import Tensor
 from lightning.pytorch.callbacks import Callback
 
 
-class HistCallback(Callback):
+class ResultWriter(Callback):
     file: uproot.WritableDirectory
 
     def __init__(self) -> None:
