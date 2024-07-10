@@ -27,6 +27,7 @@ def run(trainer: Trainer,
 
 def main():
     cli = LightningCLI(
+        model_class=LitModel,
         datamodule_class=DataModule,
         seed_everything_default=1234,
         run=False, # used to de-activate automatic fitting.
