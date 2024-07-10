@@ -22,18 +22,18 @@ class DelphesDataset(TensorDictListDataset):
 
         expressions: list[str] = [
             # track
-            'track_pt',
+            'track_px',
+            'track_py',
             'track_eta',
-            'track_phi',
             'track_charge',
             'track_is_electron',
             'track_is_muon',
             'track_is_hadron',
             'track_is_reco_pu',
             # tower
-            'tower_pt',
+            'tower_px',
+            'tower_py',
             'tower_eta',
-            'tower_phi',
             'tower_is_hadron',
             # genMet
             'gen_met_pt',
@@ -49,24 +49,6 @@ class DelphesDataset(TensorDictListDataset):
         data = tree.arrays( # type: ignore
             expressions=expressions,
             entry_stop=entry_stop,
-        )
-
-        track_chunk = ak.Array(
-            data={
-                'pt': data.track_pt,
-                'eta': data.track_eta,
-                'phi': data.track_phi,
-            },
-            with_name='Momentum3D',
-        )
-
-        tower_chunk = ak.Array(
-            data={
-                'pt': data.tower_pt,
-                'eta': data.tower_eta,
-                'phi': data.tower_phi,
-            },
-            with_name='Momentum3D',
         )
 
         gen_met_chunk = ak.Array(
@@ -93,11 +75,10 @@ class DelphesDataset(TensorDictListDataset):
             with_name='Momentum2D'
         )
 
-        # all continuous varaibles
         track_chunk = zip(
-            track_chunk.px, # type: ignore
-            track_chunk.py, # type: ignore
-            track_chunk.eta, # type: ignore
+            data.track_px,
+            data.track_py,
+            data.track_eta,
             data.track_charge,
             data.track_is_electron,
             data.track_is_muon,
@@ -111,9 +92,9 @@ class DelphesDataset(TensorDictListDataset):
         ]
 
         tower_chunk = zip(
-            tower_chunk.px, # type: ignore
-            tower_chunk.py, # type: ignore
-            tower_chunk.eta, # type: ignore
+            data.tower_px,
+            data.tower_py,
+            data.tower_eta,
             data.tower_is_hadron,
         )
 
