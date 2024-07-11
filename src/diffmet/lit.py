@@ -26,7 +26,7 @@ class LitModel(LightningModule):
                  augmentation: Compose,
                  preprocessing: Compose,
                  model: Model,
-                 criterion: nn.Module = nn.MSELoss(),
+                 criterion,
                  pt_binning: list[tuple[float, float]] = DEFAULT_PT_BINNING,
     ) -> None:
         super().__init__()
