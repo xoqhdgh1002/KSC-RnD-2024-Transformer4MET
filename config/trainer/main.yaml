@@ -1,7 +1,6 @@
-trainer:
-  max_epochs: 100
-  accelerator: gpu
-  devices: 1
-  log_every_n_steps: 1
-  callbacks:
-    - class_path: diffmet.callbacks.ResultWriter
+max_epochs: 100
+accelerator: gpu
+devices: 1
+log_every_n_steps: 1
+callbacks:
+  - class_path: diffmet.callbacks.ResultWriter
