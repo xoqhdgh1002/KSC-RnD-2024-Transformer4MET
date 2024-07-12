@@ -24,6 +24,9 @@ class Compose(Module):
             )
         self.transform_dict = ModuleDict(module_dict)
 
+    def keys(self):
+        return self.transform_dict.keys()
+
 
     def __getitem__(self, key: str) -> Transform:
         return self.transform_dict[key].module

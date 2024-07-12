@@ -5,7 +5,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH -o ./logs/%x-%j-out.log
 #SBATCH -e ./logs/%x-%j-err.log
-#SBATCH --time 06:00:00
+#SBATCH --time 24:00:00
 #SBATCH --gres=gpu:1
 #SBATCH --comment pytorch
 
@@ -23,14 +23,12 @@ echo "MAMBA_EXE=${MAMBA_EXE}"
 eval "$(${MAMBA_EXE} shell hook --shell=bash)"
 micromamba activate diffmet-py311
 
-# FIXME
-CONFIG_FILE=${PROJECT_PREFIX}/config/test-l1pf-transformer-neuron.yaml
-echo "CONFIG_FILE=${CONFIG_FILE}"
-if [ ! -f ${CONFIG_FILE} ]; then
-    echo "CONFIG_FILE not found" 1>&2
-fi
-
-python train.py -c ${CONFIG_FILE}
+python train.py \
+    --data ./config/data/delphes/neuron.yaml \
+    --model ./config/model/delphes/perceiver.yaml \
+    --trainer ./config/trainer/main.yaml \
+    --optimizer ./config/optimizer/AdamW.yaml \
+    --trainer.enable_progress_bar False
 
 echo "END: $(date)"
 exit 0
