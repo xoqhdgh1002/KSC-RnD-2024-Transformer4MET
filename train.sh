@@ -27,8 +27,7 @@ python train.py \
     --data ./config/data/delphes/neuron.yaml \
     --model ./config/model/delphes/perceiver.yaml \
     --trainer ./config/trainer/main.yaml \
-    --optimizer ./config/optimizer/AdamW.yaml \
-    --trainer.enable_progress_bar False
+    --optimizer ./config/optimizer/AdamW.yaml
 
 echo "END: $(date)"
 exit 0
