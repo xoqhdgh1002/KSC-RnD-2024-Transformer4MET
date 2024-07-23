@@ -41,3 +41,7 @@ mkdir ./logs # directory for slurm's output
 sbatch ./train.sh
 squeue -u $USER
 ```
+
+
+## TODO
+- [ ] flag to turn off weight sharing for Perceiver
