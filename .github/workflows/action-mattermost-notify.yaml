@@ -1,19 +1,51 @@
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+
+  pull_request:
+    types: [opened, edited, closed, reopened]
+
+  issues:
+    types: [opened, edited, deleted, reopened]
+
+  issue_comment:
+    types: [created, edited]
 
 jobs:
-  notify:
+  notify_pr:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: mattermost-notify
+        uses: mattermost/action-mattermost-notify@master
         with:
-          python-version: '3.10'
-      - name: Notify
-        env:
-          args: ${{toJson(github)}}
-        run: |
-          python ./.github/scripts/notify.py ${args}
-        shell: bash
-      - uses: mattermost/action-mattermost-notify@master
-        env:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          MATTERMOST_USERNAME: ${{ vars.MATTERMOST_USERNAME }}
+          MATTERMOST_ICON_URL: ${{ vars.MATTERMOST_ICON }}
+          TEXT: |-
+            :github: ${{ github.event.pull_request.user.login }} ${{ github.event.action }} a pull request [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})
+            > ${{ github.event.pull_request.body }}
+  notify_issue:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'issues' }}
+    steps:
+      - name: mattermost-notify
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          MATTERMOST_USERNAME: ${{ vars.MATTERMOST_USERNAME }}
+          MATTERMOST_ICON_URL: ${{ vars.MATTERMOST_ICON }}
+          TEXT: |-
+            :github: ${{ github.event.action }} issue "${{ github.event.issue.title }}" ${{ github.event.issue.html_url }}
+            > ${{ github.event.issue.body }}
+  notify_comment:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'issue_comment' }}
+    steps:
+      - uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          MATTERMOST_USERNAME: ${{ vars.MATTERMOST_USERNAME }}
+          MATTERMOST_ICON_URL: ${{ vars.MATTERMOST_ICON }}
+          TEXT: |-
+            :github: ${{ github.event.action }} comment in issue "${{ github.event.issue.title }}" ${{ github.event.issue.html_url }}
+            > ${{ github.event.comment.body }}
