@@ -24,8 +24,8 @@ eval "$(${MAMBA_EXE} shell hook --shell=bash)"
 micromamba activate diffmet-py311
 
 python train.py \
-    --data ./config/data/delphes/neuron.yaml \
-    --model ./config/model/delphes/perceiver.yaml \
+    --data ./config/data/test/test.yaml \
+    --model ./config/model/test/test.yaml \
     --trainer ./config/trainer/main.yaml \
     --optimizer ./config/optimizer/AdamW.yaml
 

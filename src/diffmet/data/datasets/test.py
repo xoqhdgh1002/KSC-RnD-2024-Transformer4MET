@@ -14,7 +14,7 @@ class TestDataset(TensorDictListDataset):
     @classmethod
     def _from_root(cls,
                   path: str,
-                  treepath: str = 'Evetns',
+                  treepath: str = 'Events',
                   entry_stop: int | None = None
     ):
 
@@ -35,7 +35,7 @@ class TestDataset(TensorDictListDataset):
             'L1PuppiMet_pt',
             'L1PuppiMet_phi',
             # pf
-            'L!PFMet_pt',
+            'L1PFMet_pt',
             'L1PFMet_phi',
         ]
 
@@ -74,7 +74,7 @@ class TestDataset(TensorDictListDataset):
             data.L1PuppiCands_phi,
             data.L1PuppiCands_charge,
             data.L1PuppiCands_pdgId,
-            data.PuppiCands_puppiWeight,
+            data.L1PuppiCands_puppiWeight,
         )
 
         track_chunk = [
@@ -130,7 +130,7 @@ class TestDataset(TensorDictListDataset):
     @classmethod
     def from_root(cls,
                   path_list: list[str],
-                  treepath: str = 'Evetns',
+                  treepath: str = 'Events',
                   entry_stop: int | None = None
     ):
         dataset = cls([])

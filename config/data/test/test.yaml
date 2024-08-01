@@ -2,12 +2,12 @@ dataset_class_path: diffmet.data.datasets.TestDataset
 batch_size: 128
 eval_batch_size: 128
 train_files:
-  - /scratch/x2719a08/perfNano/perfNano_TTbar_PU200.110X_set2.root
-  - /scratch/x2719a08/perfNano/perfNano_TTbar_PU200.110X_set3.root
-  - /scratch/x2719a08/perfNano/perfNano_TTbar_PU200.110X_set4.root
-  - /scratch/x2719a08/perfNano/perfNano_TTbar_PU200.110X_set5.root
-  - /scratch/x2719a08/perfNano/perfNano_TTbar_PU200.110X_set6.root
+  - /eos/home-b/btae/ML_workspace/inputs/perfNano_TTbar_PU200.110X_set2.root
+  - /eos/home-b/btae/ML_workspace/inputs/perfNano_TTbar_PU200.110X_set3.root
+  - /eos/home-b/btae/ML_workspace/inputs/perfNano_TTbar_PU200.110X_set4.root
+  - /eos/home-b/btae/ML_workspace/inputs/perfNano_TTbar_PU200.110X_set5.root
+  - /eos/home-b/btae/ML_workspace/inputs/perfNano_TTbar_PU200.110X_set6.root
 val_files:
-  - /scratch/x2719a08/perfNano/perfNano_TTbar_PU200.110X_set0.root
+  - /eos/home-b/btae/ML_workspace/inputs/perfNano_TTbar_PU200.110X_set0.root
 test_files:
-  - /scratch/x2719a08/perfNano/perfNano_TTbar_PU200.110X_set1.root
+  - /eos/home-b/btae/ML_workspace/inputs/perfNano_TTbar_PU200.110X_set1.root
