@@ -67,13 +67,45 @@ class TestDataset(TensorDictListDataset):
             },
             with_name='Momentum2D'
         )
+        
+        d_encoding = {
+        'L1PuppiCands_charge': {-999.0: 0,
+                                -1.0: 1,
+                                0.0: 2,
+                                1.0: 3},
+        'L1PuppiCands_pdgId': {-999.0: 0,
+                               -211.0: 1,
+                               -130.0: 2,
+                               -22.0: 3,
+                               -13.0: 4,
+                               -11.0: 5,
+                               11.0: 5,
+                               13.0: 4,
+                               22.0: 3,
+                               130.0: 2,
+                               211.0: 1}
+        }
+
+        L1PuppiCands_charge = []
+        L1PuppiCands_pdgId = []
+        
+        for i in data.L1PuppiCands_charge:
+            j = ak.to_numpy(i)
+            L1PuppiCands_charge.append(np.vectorize(d_encoding['L1PuppiCands_charge'].__getitem__)(j))
+        
+        for i in data.L1PuppiCands_pdgId:
+            j = ak.to_numpy(i)
+            L1PuppiCands_pdgId.append(np.vectorize(d_encoding['L1PuppiCands_pdgId'].__getitem__)(j))
+        
+        L1PuppiCands_charge = ak.Array(L1PuppiCands_charge)
+        L1PuppiCands_pdgId = ak.Array(L1PuppiCands_pdgId)
 
         track_chunk = zip(
             data.L1PuppiCands_pt,
             data.L1PuppiCands_eta,
             data.L1PuppiCands_phi,
-            data.L1PuppiCands_charge,
-            data.L1PuppiCands_pdgId,
+            L1PuppiCands_charge,
+            L1PuppiCands_pdgId,
             data.L1PuppiCands_puppiWeight,
         )
 

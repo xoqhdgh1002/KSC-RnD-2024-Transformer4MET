@@ -28,7 +28,7 @@ def get_unique_epoch(df):
 
 def plot_learning_curve(df_train: pd.DataFrame,
          df_val: pd.DataFrame,
-         df_test: pd.DataFrame,
+        #  df_test: pd.DataFrame,
          df_epoch: pd.DataFrame,
          y: str,
          x: str = 'step',
@@ -40,7 +40,7 @@ def plot_learning_curve(df_train: pd.DataFrame,
         train_smooth_x, train_smooth_y = lowess(endog=df_train[y], exog=df_train[x], frac=0.075, it=0, is_sorted=True).T
         ax.plot(train_smooth_x, train_smooth_y, label='Training (LOWESS)', color='tab:blue', lw=3)
     ax.plot(df_val[x], df_val[y], label='Validation', color='tab:orange', lw=3)
-    ax.plot(df_test[x], df_test[y], label='Test', color='tab:red', ls='', marker='*', markersize=20)
+    # ax.plot(df_test[x], df_test[y], label='Test', color='tab:red', ls='', marker='*', markersize=20)
 
     ax.set_xlabel('Epoch')
     ax.set_ylabel(y)
@@ -71,10 +71,10 @@ def make_learning_curves(log_dir: Path):
 
     df_train = select(df, 'train_')
     df_val = select(df, 'val_')
-    df_test = select(df, 'test_')
+    # df_test = select(df, 'test_')
 
-    df_test['epoch'] = best_info['epoch']
-    df_test['step'] = best_info['step']
+    # df_test['epoch'] = best_info['epoch']
+    # df_test['step'] = best_info['step']
 
     df_epoch = get_unique_epoch(df)
 
@@ -83,7 +83,7 @@ def make_learning_curves(log_dir: Path):
 
     df_train.to_csv(output_dir / 'training.csv.xz')
     df_val.to_csv(output_dir / 'validation.csv')
-    df_test.to_csv(output_dir / 'test.csv')
+    # df_test.to_csv(output_dir / 'test.csv')
     df_epoch.to_csv(output_dir / 'epoch.csv')
 
 
@@ -92,7 +92,7 @@ def make_learning_curves(log_dir: Path):
     for metric in df_val.columns:
         if metric in ['step', 'epoch']:
             continue
-        fig = plot_learning_curve(df_train=df_train, df_val=df_val, df_test=df_test, df_epoch=df_epoch, y=metric)
+        fig = plot_learning_curve(df_train=df_train, df_val=df_val,  df_epoch=df_epoch, y=metric)
         output_path = output_dir / metric
         for suffix in ['.pdf', '.png']:
             fig.savefig(output_path.with_suffix(suffix))
